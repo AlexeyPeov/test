@@ -1,38 +1,96 @@
 # 1. Написать набор методов для работы с файлом:
 
-db = File.open("db.txt")
-dbParsed = db.read
-dbParsed.split("\n")
 
-puts dbParsed
+
+DB_PATH = 'db.txt'
+TEMP = 'temp.txt'
+
 
 # ○ index - выводит все строки;
 def index
-
+    puts File.open("db.txt").read.split("\n")
 end
 
 # ○ find(id) - находит конкретную строку в файле и выводит ее;
-def findById
-
+def findById(id)
+    currentLine = 1
+    db = File.open("db.txt").read
+    db.each_line do |line|
+    return line if id == currentLine
+    currentLine+=1
+   end
 end
+
+index
+puts findById(2)
+puts "\n\nab"
 
 # ○ where(pattern) - находит все строки, где есть указанный паттерн;
 def findByPattern(pattern)
+    arr = []
+    splitPattern = pattern.split
+    db = File.open("db.txt").read
+    db.each_line do |line|
+        found = false
+        if splitPattern.count > 1 then
+            numberOfElements = splitPattern.count
+            matches = 0
+            for key in line.split do
+                for value in splitPattern do
+                    if key == value then
+                        matches += 1 
+                    end
+                end
+            end
+            if numberOfElements == matches  then
+                found = true 
+            end
+        else 
+            for key in line.split do
+                if key == pattern then
+                     found = true
+                end
+            end
+        end
+        
+        if found == true then
+            arr.push(line) 
+        end
+    end
 
+    return arr
 end
+
+puts findByPattern("Dekret")
 
 # ○ update(id, text) - обновляет конкретную строку файла;
 def update(id,text)
+    file = File.new('temp.txt', 'w')
+    File.foreach(DB_PATH).with_index do |person, index|
+    file.puts(id == index ? text : person)
+    end
+    file.close
+    File.write(DB_PATH, File.read(TEMP))
+    File.delete(TEMP) if File.exist?(TEMP)
 end
+
+update(0, "Артем Урсулов 20")
+
 
 # ○ delete(id) - удаляет строку;
 def deleteById(id)
-
+    file = File.new('temp.txt', 'w')
+    File.foreach(DB_PATH).with_index do |person, index|
+    file.puts(id == index ? text : person) if index != id
+    end
+    file.close
+    File.write(DB_PATH, File.read(TEMP))
+    File.delete(TEMP) if File.exist?(TEMP)
 end
 
+#deleteById(0)
 
 
-db.close
 
 
 # 2. Написать программу, которая начинается с чтения файла,
@@ -78,5 +136,4 @@ db.close
 # записать текущий баланс обратно в файл balance.txt.
 # В случае неправильного ввода (команда или сумма), программа
 # должна выдать соответствующее сообщение об ошибке, которое
-# сообщит клиенту, как ее исправить. Нельзя просто выводить
-# "Error!".
+# сообщит клиенту, как ее исправить. Нельзя просто выводить error
