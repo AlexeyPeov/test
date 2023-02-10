@@ -18,7 +18,7 @@ result = File.new('textFiles/result.txt', 'w')
 
 age = age.to_s
 
-found = findByPattern(age) 
+found = findByPattern(age, DB_PATH) 
 for info in found do 
     result.puts(info)
 end

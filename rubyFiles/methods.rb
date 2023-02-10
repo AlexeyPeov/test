@@ -9,9 +9,9 @@ def index (index)
 end
 
 # ○ find(id) - находит конкретную строку в файле и выводит ее;
-def findById(id)
+def findById(id, path)
     currentLine = 1
-    db = File.open("db.txt").read
+    db = File.open(path).read
     db.each_line do |line|
     return line if id == currentLine
     currentLine+=1
@@ -19,9 +19,9 @@ def findById(id)
 end
 
 # ○ where(pattern) - находит все строки, где есть указанный паттерн;
-def findByPattern(pattern)
+def findByPattern(pattern, path)
     arr = []
-    db = File.open("textFiles/db.txt").read
+    db = File.open(path).read
     db.each_line do |line|
         found = false
         
@@ -56,24 +56,24 @@ end
 
 
 # ○ update(id, text) - обновляет конкретную строку файла;
-def update(id,text)
-    file = File.new('temp.txt', 'w')
-    File.foreach(DB_PATH).with_index do |person, index|
+def update(id,text, path)
+    file = File.new('textFiles/temp.txt', 'w')
+    File.foreach(path).with_index do |person, index|
     file.puts(id == index ? text : person)
     end
     file.close
-    File.write(DB_PATH, File.read(TEMP))
+    File.write(path, File.read(TEMP))
     File.delete(TEMP) if File.exist?(TEMP)
 end
 
 
 # ○ delete(id) - удаляет строку;
-def deleteById(id)
+def deleteById(id, path)
     file = File.new('temp.txt', 'w')
-    File.foreach(DB_PATH).with_index do |person, index|
+    File.foreach(path).with_index do |person, index|
     file.puts(id == index ? text : person) if index != id
     end
     file.close
-    File.write(DB_PATH, File.read(TEMP))
+    File.write(path, File.read(TEMP))
     File.delete(TEMP) if File.exist?(TEMP)
 end
