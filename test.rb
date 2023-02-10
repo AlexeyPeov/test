@@ -1,49 +1,49 @@
-#puts "hello"
-def factorial (a)
-    num = 1;
+# Для выполнения работы необходимо: 
+# 1. Написать скрипт, который будет принимать слово. Если слово заканчи-вается на “CS” - выводит на экран цифру 2 в степени (длины введенного слова), 
+#если не заканчивается - выводит слово задом наперед. 
 
-    i = 1;
-    for i in 1..a
-        num *= i
+# 2. Написать скрипт, который будет выводить массив покемонов: 
+# ○ Спросит, сколько покемонов добавить. 
+# ○ Указанное на предыдущем этапе число раз, спросит имя и цвет каждого покемона. 
+# ○ Выведет в консоль массив, содержащий хеши покемонов в форма-те: 
+# [{ name: 'Pikachu', color: 'Yellow' }, … n times{}] 
+# 3. Код должен быть организован в методы. 
+# 4. Каждая задача должна содержать блок-схему
+
+def script1(word)
+   
+    if word[word.length-2] == "C" && word[word.length-1] == "S" 
+        return 2^word.size
+    else
+        word.reverse
+    end
+end
+
+puts script1("ABOBACS")
+puts script1("ABOBACV")
+
+
+def pokemonPrint
+
+    $pokemons = Hash.new
+    puts "How many pokemons do you wish to have in a hash map?\n"
+    number = gets
+    i =1;
+    for i in i..number.to_i do
+        puts "enter pokemon Name\n"
+        name = gets.chomp 
+        puts "enter pokemon Color\n"
+        color = gets.chomp 
+        $pokemons[name] = color 
         i+=1
     end
+    return $pokemons
 
-    return num;
-end 
-
-def squareOf (a) 
-    return a*a;
 end
 
-#1. Написать метод greeting, который будет запрашивать имя, фамилию и возраст, а затем выдавать приветствие в одном из двух вариантов, в за-висимости от возраста: 
-#○ Привет, {имя} {фамилия}. Тебе меньше 18 лет, но начать учиться программировать никогда не рано. 
-#○ Привет, {имя} {фамилия}. Самое время заняться делом! 
-#2. Написать метод foobar, который принимает пару чисел, если хотя бы одно равно 20 - возвращает второе число, в противном случае выводит сумму этих чисел. 
-def greeting 
-    puts "Hello\nWhats your name?\n"
-    name = gets.chomp 
-    puts "Whats your second name?\n"
-    secondName = gets.chomp
-    puts "Whats your age?\n"
-    age = gets.chomp
+pokemons = pokemonPrint
 
-    if age.to_i < 18 
-        puts "Hi #{name} #{secondName}. Your age is less than 18, but it's never too early to start programming."
-    else puts "Hi #{name} #{secondName}. It's about time you started programming!"
-    end
-end
+puts pokemons
 
-def foobar (a,b)
-    if a === 20 || b == 20
-        return b
-    else return a+b
-    end
-end
-
-greeting
-puts foobar(15,20)
-puts foobar 
-
-
-
+puts pokemons.fetch("A")
 
