@@ -1,49 +1,35 @@
-# Для выполнения работы необходимо: 
-# 1. Написать скрипт, который будет принимать слово. Если слово заканчи-вается на “CS” - выводит на экран цифру 2 в степени (длины введенного слова), 
-#если не заканчивается - выводит слово задом наперед. 
+# Написать метод array_x2, который принимает в качестве аргумента массив чисел и возвращает массив, элементы которого вдвое больше элементов оригинального массива.
+# Предусмотреть следующие сценарии
+# 1.	Массив не содержит элементов - вывести сообщение о том, что мас-сив пустой
+# 2.	Массив содержит не только целочисленные элементы - исключить в результирующем массиве все элементы кроме целочисленных, выве-сти результат только с ними
+# 3.	Массив не содержит целочисленные элементы - вывести сообщение, о невозможности обработать запрос
+# Отчёт можно сдавать в свободной форме в Moodle
 
-# 2. Написать скрипт, который будет выводить массив покемонов: 
-# ○ Спросит, сколько покемонов добавить. 
-# ○ Указанное на предыдущем этапе число раз, спросит имя и цвет каждого покемона. 
-# ○ Выведет в консоль массив, содержащий хеши покемонов в форма-те: 
-# [{ name: 'Pikachu', color: 'Yellow' }, … n times{}] 
-# 3. Код должен быть организован в методы. 
-# 4. Каждая задача должна содержать блок-схему
-
-def script1(word)
-   
-    if word[word.length-2] == "C" && word[word.length-1] == "S" 
-        return 2^word.size
+def array_x2(arr)
+    goodArr = []
+    if arr.empty? 
+        puts "array is empty"
     else
-        word.reverse
+    arr.each do |number|
+        if number.is_a? Integer
+        goodArr.push(number*2)
+        end
+        end
+    end 
+    if (goodArr.empty?)  
+        puts "ERROR: Cannot process the request"
     end
+    return goodArr;
 end
 
-puts script1("ABOBACS")
-puts script1("ABOBACV")
-
-
-def pokemonPrint
-
-    $pokemons = Hash.new
-    puts "How many pokemons do you wish to have in a hash map?\n"
-    number = gets
-    i =1;
-    for i in i..number.to_i do
-        puts "enter pokemon Name\n"
-        name = gets.chomp 
-        puts "enter pokemon Color\n"
-        color = gets.chomp 
-        $pokemons[name] = color 
-        i+=1
-    end
-    return $pokemons
-
-end
-
-pokemons = pokemonPrint
-
-puts pokemons
-
-puts pokemons.fetch("A")
-
+arrEmpty = []
+arrGood = [1,2,3,4,5,6,7,8,9]
+arrBad = [1.1,2.3,2.333,23.2,222.22,1.2]
+arrHalfBad = [1,2,3.2,3,2.44,6.2,5,6,7.22,7]
+puts array_x2(arrEmpty)
+puts "\nGood array: \n"
+puts array_x2(arrGood)
+puts "\nHalfBadArray: \n"
+puts array_x2(arrHalfBad)
+puts "\nBad Array: \n"
+puts array_x2(arrBad)
