@@ -9,6 +9,9 @@ def factorial (a)
     end
 
     return num;
+
+def squareOf (a) 
+    return a*a;
 end
 
 #aboba
