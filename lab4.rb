@@ -7,8 +7,8 @@ TEMP = 'temp.txt'
 
 
 # ○ index - выводит все строки;
-def index
-    puts File.open("db.txt").read.split("\n")
+def index (index)
+    puts File.open(index).read.split("\n")
 end
 
 # ○ find(id) - находит конкретную строку в файле и выводит ее;
@@ -21,22 +21,18 @@ def findById(id)
    end
 end
 
-index
-puts findById(2)
-puts "\n\nab"
-
 # ○ where(pattern) - находит все строки, где есть указанный паттерн;
 def findByPattern(pattern)
     arr = []
-    splitPattern = pattern.split
     db = File.open("db.txt").read
     db.each_line do |line|
         found = false
-        if splitPattern.count > 1 then
-            numberOfElements = splitPattern.count
+        
+        if pattern.split.count > 1 then
+            numberOfElements = pattern.split.count
             matches = 0
             for key in line.split do
-                for value in splitPattern do
+                for value in pattern.split do
                     if key == value then
                         matches += 1 
                     end
@@ -61,7 +57,6 @@ def findByPattern(pattern)
     return arr
 end
 
-puts findByPattern("Dekret")
 
 # ○ update(id, text) - обновляет конкретную строку файла;
 def update(id,text)
@@ -73,8 +68,6 @@ def update(id,text)
     File.write(DB_PATH, File.read(TEMP))
     File.delete(TEMP) if File.exist?(TEMP)
 end
-
-update(0, "Артем Урсулов 20")
 
 
 # ○ delete(id) - удаляет строку;
@@ -93,12 +86,30 @@ end
 
 
 
-# 2. Написать программу, которая начинается с чтения файла,
+# 2. Написать программу, которая начинается с чтения файла, -- КАКОГО?!??!?!
+
+index(DB_PATH) # чтение файла
 
 # Запросив у пользователя ввести свой возраст, программа должна
 # найти в результатах чтения файла студента(-ов), чей возраст равен
 # введенному числу и записать этого студента(-ов) в другой файл с
 # названием results.txt. После чего перезапросить ввод.
+
+puts "How old are you??\n"
+
+age = gets.chomp #chomp убирает ошибку связаную с \n, если сравнивать это значение
+                 # с другим, без .chomp сравнивает age == age\n, что очень очень интересно!??!?! 
+                 # я потратил на это минут 20..
+
+result = File.new('result.txt', 'w')
+
+age = age.to_s
+
+found = findByPattern(age) 
+for info in found do 
+    result.puts(info)
+end
+result.close
 
 
 # Программа должна завершаться выводом на экран содержимого
@@ -106,6 +117,16 @@ end
 # первого файла были записаны во второй или если пользователь ввел
 # с клавиатуры -1.
 
+RESULT_PATH = 'result.txt'
+puts "enter '-1' to see the result file\n"
+input = gets.to_i # если оставить просто gets, то руби посчитает что -1 != -1, 
+                  # если поставить gets.to_s, он посчитает что -1 != -1
+                  # хотя оператор "==" в динамических языках нормально сравнивает int и char
+                  # это не руби это пёрл..
+
+if (File.size(DB_PATH) == File.size(RESULT_PATH) || input == -1) 
+    index(RESULT_PATH)
+end
 
 # 3. Написать программу, которая начинается с чтения банковского
 # баланса клиента из файла с именем balance.txt, содержащего одну
