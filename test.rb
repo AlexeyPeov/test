@@ -11,4 +11,4 @@ def factorial (a)
     return num;
 end
 
-puts factorial(5)
+
