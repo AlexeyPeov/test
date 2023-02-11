@@ -1,4 +1,27 @@
 # 1. Написать набор методов для работы с файлом:
+
+module Methods
+
+    require 'mysql2'
+
+    @connection = PDO.connection(dbname: 'rubyapp', user 'vscode', password 'password')
+
+
+    def createDb
+        create = "
+        CREATE TABLE customer (
+        id INT NOT NULL AUTO_INCREMENT,
+        brand VARCHAR(50) NOT NULL,
+        plates VARCHAR(20) NOT NULL,
+        color VARCHAR(50) NOT NULL,
+        carClass INT NOT NULL,
+        PRIMARY KEY (id)
+                           
+    ); "
+    @connection->query(create)
+
+    end
+
 DB_PATH = 'textFiles/db.txt'
 TEMP = 'textFiles/temp.txt'
 
@@ -76,4 +99,5 @@ def deleteById(id, path)
     file.close
     File.write(path, File.read(TEMP))
     File.delete(TEMP) if File.exist?(TEMP)
+end
 end
