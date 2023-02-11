@@ -1,26 +1,35 @@
 # 1. Написать набор методов для работы с файлом:
+gem 'mysql2'
+gem 'dbi'
+gem 'solargraph'
 
+require 'dbi'
+require 'mysql2'
+require 'solargraph'
 module Methods
 
-    require 'mysql2'
+    
 
-    @connection = PDO.connection(dbname: 'rubyapp', user 'vscode', password 'password')
+begin
+    dbConnection = DBI.connect("localhost", "vscode", "password")
 
 
-    def createDb
-        create = "
-        CREATE TABLE customer (
-        id INT NOT NULL AUTO_INCREMENT,
-        brand VARCHAR(50) NOT NULL,
-        plates VARCHAR(20) NOT NULL,
-        color VARCHAR(50) NOT NULL,
-        carClass INT NOT NULL,
-        PRIMARY KEY (id)
-                           
-    ); "
-    @connection->query(create)
-
+    stmt = dbConnection.prepare("SELECT * FROM CUSTOMERS")
+    stmt.execute(100)
+    stmt.fetch do |customer|
+        puts "Customer ID :- #{customer[0]}"
+        puts "Customer Name :- #{customer[1]}, #{customer[2]}"
+        puts "Customer money :- #{customer[3]}"
     end
+    stmt.finish
+rescue DBI::DatabaseError => de
+    puts de.errstr
+ensure
+    if dbConnection
+        dbConnection.disconnect
+    end
+end
+
 
 DB_PATH = 'textFiles/db.txt'
 TEMP = 'textFiles/temp.txt'
